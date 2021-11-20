@@ -1,14 +1,23 @@
 let canvas = document.querySelector("canvas");
 let textarea = document.querySelector("textarea");
-let ctx = canvas.getContext("bitmaprenderer");
 let unsub = function() {}
+
+let ctx, impl;
+if (true) {
+    ctx = canvas.getContext("2d");
+    impl = single_impl;
+} else {
+    ctx = canvas.getContext("bitmaprenderer");
+    impl = worker_impl;
+}
 
 let latest_size = 0;
 let latest_text = "";
 
 function dispatch() {
     unsub();
-    unsub = worker_impl(ctx, latest_size, latest_text);
+    let fn = "(function(){" + latest_text + "})";
+    unsub = impl(ctx, latest_size, fn);
 }
 
 let ob = new ResizeObserver(function(entries) {

@@ -48,9 +48,8 @@ function worker_impl(ctx, size, content) {
         worker.worker.onmessage = onmessage;
     }
 
-    let f = "(function(){" + content + "})";
     for (let worker of workers) {
-        worker.worker.postMessage({ f });
+        worker.worker.postMessage({ f: content });
     }
 
     return function() {
