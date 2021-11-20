@@ -1,11 +1,11 @@
 function single_impl(ctx, size, content) {
+    console.log("single", size);
     let is_dead = false;
     ctx.font = `100px serif`;
 
     function draw(resolution) {
         console.log(`drawing at ${resolution}`);
-        //ctx.clearRect(0, 0, resolution, resolution);
-        let buf = ctx.getImageData(0, 0, resolution, resolution);
+        let buf = ctx.createImageData(resolution, resolution);
         let data = buf.data;
         try {
             f = eval(content)();
@@ -20,6 +20,7 @@ function single_impl(ctx, size, content) {
                 data[i + 3] = b || 255;
             }
 
+            console.log("putting at ", { size });
             ctx.putImageData(buf, 0, 0, 0, 0, size, size);
         } catch (e) {
             ctx.fillText(e.toString(), 50, 100);
