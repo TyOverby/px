@@ -14,7 +14,7 @@ for (var i = 0; i < data.length; i += 4) {
 }
 
 globalThis.onmessage = function(e) {
-    let { f, generation } = e.data;
+    let { f } = e.data;
     try {
         f = eval(f)();
 
@@ -35,11 +35,6 @@ globalThis.onmessage = function(e) {
         ctx.fillText(e.toString(), resolution / 50, resolution / 50);
     }
 
-    let bitmap = canvas.transferToImageBitmap();
-    console.log(bitmap);
-    postMessage({
-        output: bitmap,
-        generation,
-        resolution
-    });
+    let output = canvas.transferToImageBitmap();
+    postMessage({ output, resolution });
 }
