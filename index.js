@@ -32,7 +32,7 @@ ob.observe(canvas);
 
 let hash = location.hash.substr(1);
 if (hash == "") {
-    latest_text = `function (x, y) {
+    latest_text = `return function (x, y) {
         if (y > 0.5) {
             return {r: 255, g:0, b: 100};
         } else {
