@@ -23,15 +23,16 @@ globalThis.onmessage = function(e) {
             let x = pos % resolution | 0;
             let y = pos / resolution | 0;
             let { r, g, b } = f(x / resolution, y / resolution);
-            data[i + 0] = r;
-            data[i + 1] = g;
-            data[i + 2] = b;
+            data[i + 0] = r || 0;
+            data[i + 1] = g || 0;
+            data[i + 2] = b || 0;
         }
 
         ctx.putImageData(buf, 0, 0);
     } catch (e) {
-        ctx.font = '48px serif';
-        ctx.fillText(e.toString(), 50, 50);
+        let fontsize = resolution / 100;
+        ctx.font = `${fontsize}px monospace`;
+        ctx.fillText(e.toString(), resolution / 50, resolution / 50);
     }
 
     let bitmap = canvas.transferToImageBitmap();
