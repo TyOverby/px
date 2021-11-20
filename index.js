@@ -36,7 +36,11 @@ function setup(width, height) {
 
     function make_worker(i) {
         let n;
-        if (i == 0) {
+        if (i == -2) {
+            n = size * 4;
+        } else if (i == -1) {
+            n = size * 2;
+        } else if (i == 0) {
             n = size
         } else {
             n = size / (2 << (i - 1));
@@ -46,11 +50,11 @@ function setup(width, height) {
     }
 
     var workers = [
-        make_worker(4),
-        make_worker(3),
         make_worker(2),
         make_worker(1),
         make_worker(0),
+        make_worker(-1),
+        make_worker(-2),
     ]
 
     let current_generation = 0;
@@ -73,6 +77,7 @@ function setup(width, height) {
         }
 
         if (next_image_buffer != most_recently_drawn_image_buffer) {
+            most_recently_drawn_image_buffer && most_recently_drawn_image_buffer.close();
             most_recently_drawn_image_buffer = next_image_buffer;
             ctx.transferFromImageBitmap(next_image_buffer);
             console.log("drawing");
@@ -81,26 +86,25 @@ function setup(width, height) {
     }
     display_loop();
 
-    textarea.onchange = function() {
-        //dispatch(textarea.value);
-    }
-
     function onmessage(e) {
         if (is_dead) {
             return;
         }
         let { output, generation, resolution } = e.data;
         if (generation < most_recently_seen_generation) {
+            output.close();
             return;
         }
         if (generation > most_recently_seen_generation) {
             most_recently_seen_generation = generation;
         } else if (most_recently_seen_resolution > resolution) {
+            output.close();
             return;
         }
         most_recently_seen_resolution = resolution;
 
         console.log("putting", { generation, resolution });
+        next_image_buffer && next_image_buffer.close();
         next_image_buffer = output;
     }
 
@@ -109,7 +113,8 @@ function setup(width, height) {
     }
 
     function dispatch(f) {
-        f = "(" + f + ")";
+        if (is_dead) { return }
+        f = "(function(){" + f + "})";
         current_generation += 1;
         for (let worker of workers) {
             worker.worker.postMessage({ f, generation: current_generation });

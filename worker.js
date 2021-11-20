@@ -16,7 +16,7 @@ for (var i = 0; i < data.length; i += 4) {
 globalThis.onmessage = function(e) {
     let { f, generation } = e.data;
     try {
-        f = eval(f);
+        f = eval(f)();
 
         for (var i = 0; i < data.length; i += 4) {
             let pos = i / 4;
