@@ -16,7 +16,7 @@ let latest_text = "";
 
 function dispatch() {
     unsub();
-    let fn = "(function(){" + latest_text + "})";
+    let fn = "(function(){" + latest_text + "\n})";
     unsub = impl(ctx, latest_size, fn);
 }
 
