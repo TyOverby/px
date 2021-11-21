@@ -19,11 +19,10 @@ function worker_impl(ctx, size, content) {
     }
 
     let workers = [
+        make_worker(3),
         make_worker(2),
         make_worker(1),
         make_worker(0),
-        //        make_worker(-1),
-        //        make_worker(-2),
     ];
 
     let most_recently_seen_resolution = 0;
