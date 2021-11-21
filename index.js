@@ -3,7 +3,7 @@ let textarea = document.querySelector("textarea");
 let unsub = function() {}
 
 let ctx, impl;
-if (true) {
+if (window.ImageBitmap === undefined) {
     ctx = canvas.getContext("2d");
     impl = single_impl;
 } else {
