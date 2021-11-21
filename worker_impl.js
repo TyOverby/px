@@ -19,7 +19,7 @@ function worker_impl(ctx, size, content) {
     }
 
     let workers = [
-        make_worker(3),
+        make_worker(5),
         make_worker(2),
         make_worker(1),
         make_worker(0),
