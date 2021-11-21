@@ -6,13 +6,6 @@ let ctx = canvas.getContext("2d");
 let buf = ctx.getImageData(0, 0, resolution, resolution);
 let data = buf.data;
 
-for (var i = 0; i < data.length; i += 4) {
-    data[i + 0] = 255;
-    data[i + 1] = 0;
-    data[i + 2] = 0;
-    data[i + 3] = 255;
-}
-
 globalThis.onmessage = function(e) {
     let { f } = e.data;
     try {
@@ -26,6 +19,7 @@ globalThis.onmessage = function(e) {
             data[i + 0] = r || 0;
             data[i + 1] = g || 0;
             data[i + 2] = b || 0;
+            data[i + 3] = 255;
         }
 
         ctx.putImageData(buf, 0, 0);
