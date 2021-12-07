@@ -20,7 +20,7 @@ function single_impl(ctx, size, content) {
                 data[i + 0] = r || 255;
                 data[i + 1] = g || 0;
                 data[i + 2] = b || 0;
-                data[i + 3] = b || 255;
+                data[i + 3] = 255;
             }
 
             console.log("putting at ", { size });
