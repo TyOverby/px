@@ -3,7 +3,7 @@ let textarea = document.querySelector("textarea");
 let unsub = function() {}
 
 let ctx, impl;
-if (window.ImageBitmap === undefined) {
+if (window.ImageBitmap === undefined || window.OffscreenCanvas === undefined) {
     ctx = canvas.getContext("2d");
     impl = single_impl;
 } else {
@@ -21,16 +21,23 @@ function dispatch() {
 }
 
 let ob = new ResizeObserver(function(entries) {
-    for (let entry of entries) {
-        canvas.width = entry.borderBoxSize[0].inlineSize * window.devicePixelRatio;
-        canvas.height = entry.borderBoxSize[0].blockSize * window.devicePixelRatio;
-    }
-    latest_size = Math.max(canvas.width, canvas.height);
-    dispatch();
+    requestAnimationFrame(() => {
+        for (let entry of entries) {
+            if (entry.borderBoxSize) {
+                canvas.width = entry.borderBoxSize[0].inlineSize * window.devicePixelRatio;
+                canvas.height = entry.borderBoxSize[0].blockSize * window.devicePixelRatio;
+            } else {
+                canvas.width = entry.contentRect.width * window.devicePixelRatio;
+                canvas.height = entry.contentRect.height * window.devicePixelRatio;
+            }
+        }
+        latest_size = Math.max(canvas.width, canvas.height);
+        dispatch();
+    });
 });
 ob.observe(canvas);
 
-let hash = location.hash.substr(1);
+let hash = location.hash.substring(1);
 if (hash == "") {
     latest_text = `return function (x, y) {
         if (y > 0.5) {
