@@ -1,7 +1,7 @@
 function single_impl(ctx, size, content) {
     console.log("single", size);
     let is_dead = false;
-    ctx.font = `100px serif`;
+    ctx.font = `10px serif`;
 
     function draw(resolution) {
         let canvas = document.createElement("canvas");
@@ -27,6 +27,7 @@ function single_impl(ctx, size, content) {
             ctx2.putImageData(buf, 0, 0);
             ctx.drawImage(canvas, 0, 0, size, size);
         } catch (e) {
+            ctx.clearRect(0,0,size,size);
             ctx.fillText(e.toString(), 50, 100);
         }
     }
