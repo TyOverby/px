@@ -16,9 +16,9 @@ globalThis.onmessage = function(e) {
             let x = pos % resolution | 0;
             let y = pos / resolution | 0;
             let { r, g, b } = f(x / resolution, y / resolution);
-            data[i + 0] = r || 0;
-            data[i + 1] = g || 0;
-            data[i + 2] = b || 0;
+            data[i + 0] = r;
+            data[i + 1] = g;
+            data[i + 2] = b;
             data[i + 3] = 255;
         }
 
