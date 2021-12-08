@@ -24,11 +24,19 @@ let ob = new ResizeObserver(function(entries) {
     requestAnimationFrame(() => {
         for (let entry of entries) {
             if (entry.borderBoxSize) {
-                canvas.width = entry.borderBoxSize[0].inlineSize * window.devicePixelRatio;
-                canvas.height = entry.borderBoxSize[0].blockSize * window.devicePixelRatio;
+                canvas.width = 
+                    entry.borderBoxSize[0].inlineSize 
+                  * window.devicePixelRatio;
+                canvas.height = 
+                    entry.borderBoxSize[0].blockSize 
+                  * window.devicePixelRatio;
             } else {
-                canvas.width = entry.contentRect.width * window.devicePixelRatio;
-                canvas.height = entry.contentRect.height * window.devicePixelRatio;
+                canvas.width = 
+                    entry.contentRect.width 
+                  * window.devicePixelRatio;
+                canvas.height = 
+                    entry.contentRect.height 
+                  * window.devicePixelRatio;
             }
         }
         latest_size = Math.max(canvas.width, canvas.height);
